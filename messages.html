@@ -80,10 +80,12 @@
 
     const { error } = await supabase
       .from("messages")
+      console.log("INSERT READY");
       .insert({
         user_id: userData.user.id,
         content: input.value.trim()
       });
+      console.log("INSERT DONE");
 
     if (error) {
       status.textContent = error.message;
