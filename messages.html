@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Messagerie</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <a href="index.html">Accueil</a>
+  <a href="about.html">À propos</a>
+  <a href="contact.html">Contact</a>
+  <a href="messages.html">Messagerie</a>
+  <a href="login.html" id="login-link">Connexion</a>
+  <a href="#" id="logout-link" style="display:none;">Déconnexion</a>
+
+  <button id="theme-toggle">🌙</button>
+</nav>
+
+<div class="container">
+  <h1>Messagerie</h1>
+
+  <div id="messages"></div>
+
+  <textarea id="messageInput" placeholder="Écris un message..."></textarea>
+  <button id="sendBtn">Envoyer</button>
+
+  <p id="status"></p>
+</div>
+
+<script type="module">
+  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+  const supabaseUrl = "TON_URL_SUPABASE";
+  const supabaseKey = "TA_CLE_ANON";
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  const messagesDiv = document.getElementById("messages");
+  const input = document.getElementById("messageInput");
+  const sendBtn = document.getElementById("sendBtn");
+  const status = document.getElementById("status");
+
+  // Vérifier utilisateur connecté
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData.user) {
+    status.textContent = "Tu dois être connecté pour utiliser la messagerie.";
+    sendBtn.disabled = true;
+  }
+
+  async function loadMessages() {
+    const { data, error } = await supabase
+      .from("messages")
+      .select("content, created_at")
+      .order("created_at", { ascending: false })
+      .limit(20);
+
+    if (error) {
+      status.textContent = error.message;
+      return;
+    }
+
+    messagesDiv.innerHTML = "";
+    data.forEach(m => {
+      const p = document.createElement("p");
+      p.textContent = `[${new Date(m.created_at).toLocaleTimeString()}] ${m.content}`;
+      messagesDiv.appendChild(p);
+    });
+  }
+
+  sendBtn.onclick = async () => {
+    if (!input.value.trim()) return;
+
+    const { error } = await supabase
+      .from("messages")
+      .insert({
+        user_id: userData.user.id,
+        content: input.value.trim()
+      });
+
+    if (error) {
+      status.textContent = error.message;
+    } else {
+      input.value = "";
+      status.textContent = "Message envoyé.";
+      loadMessages();
+    }
+  };
+
+  loadMessages();
+</script>
+
+<script src="script.js"></script>
+</body>
+</html>

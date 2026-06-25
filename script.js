@@ -60,3 +60,10 @@ document.getElementById("logout-link")?.addEventListener("click", async () => {
     await supabase.auth.signOut();
     window.location.reload();
 });
+
+supabase
+  .channel('messages')
+  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, payload => {
+    loadMessages();
+  })
+  .subscribe();
