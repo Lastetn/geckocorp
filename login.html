@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<nav>
+    <a href="index.html">Accueil</a>
+    <a href="about.html">À propos</a>
+    <a href="contact.html">Contact</a>
+
+    <button id="theme-toggle">🌙</button>
+</nav>
+
+<div class="container">
+    <h1>Connexion / Inscription</h1>
+
+    <input id="email" type="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Mot de passe">
+
+    <button id="registerBtn">Créer un compte</button>
+    <button id="loginBtn">Se connecter</button>
+
+    <p id="status"></p>
+</div>
+
+<script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+    const supabaseUrl = "https://frtvvqdvdwjzrxnvcrgy.supabase.co/rest/v1/";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydHZ2cWR2ZHdqenJ4bnZjcmd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzODExNTYsImV4cCI6MjA5Nzk1NzE1Nn0.ip-Gx4OjjEAAvCDdNjJXLonUAtaEll5nUJRalaYh6Cs";
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const status = document.getElementById("status");
+
+    // Inscription
+    document.getElementById("registerBtn").onclick = async () => {
+        const { error } = await supabase.auth.signUp({
+            email: email.value,
+            password: password.value
+        });
+        status.textContent = error ? error.message : "Compte créé ! Vérifie ton email.";
+    };
+
+    // Connexion
+    document.getElementById("loginBtn").onclick = async () => {
+        const { error } = await supabase.auth.signInWithPassword({
+            email: email.value,
+            password: password.value
+        });
+        status.textContent = error ? error.message : "Connecté !";
+        if (!error) window.location.href = "index.html";
+    };
+</script>
+
+<script src="script.js"></script>
+</body>
+</html>
