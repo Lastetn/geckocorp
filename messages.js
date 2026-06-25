@@ -1,4 +1,10 @@
 
+
+supabase.auth.getUser().then(({ data }) => {
+  console.log("USER =", data.user);
+});
+
+
 // Vérifier si l'utilisateur est connecté
 supabase.auth.getUser().then(({ data }) => {
   console.log("USER =", data.user);
