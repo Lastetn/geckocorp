@@ -75,28 +75,28 @@
     });
   }
 
-  sendBtn.onclick = async () => {
-    if (!input.value.trim()) return;
+sendBtn.onclick = async () => {
+  if (!input.value.trim()) return;
 
-    console.log("INSERT READY");
+  console.log("INSERT READY");
 
- const { error } = await supabase
-   .from("messages")
+  const { error } = await supabase
+    .from("messages")
     .insert({
       user_id: userData.user.id,
       content: input.value.trim()
-   });
+    });
 
   console.log("INSERT DONE", error);
 
-    if (error) {
-      status.textContent = error.message;
-    } else {
-      input.value = "";
-      status.textContent = "Message envoyé.";
-      loadMessages();
-    }
-  };
+  if (error) {
+    status.textContent = error.message;
+  } else {
+    input.value = "";
+    status.textContent = "Message envoyé.";
+    loadMessages();
+  }
+};
 
   loadMessages();
 </script>
