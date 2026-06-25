@@ -30,6 +30,7 @@
   <p id="status"></p>
 </div>
 
+<!-- TON SCRIPT SUPABASE EN MODULE -->
 <script type="module">
   import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
@@ -44,6 +45,8 @@
 
   // Vérifier utilisateur connecté
   const { data: userData } = await supabase.auth.getUser();
+  console.log("USER =", userData.user);
+
   if (!userData.user) {
     status.textContent = "Tu dois être connecté pour utiliser la messagerie.";
     sendBtn.disabled = true;
@@ -91,6 +94,5 @@
   loadMessages();
 </script>
 
-<script src="script.js"></script>
 </body>
 </html>
