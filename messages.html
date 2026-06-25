@@ -78,14 +78,16 @@
   sendBtn.onclick = async () => {
     if (!input.value.trim()) return;
 
-    const { error } = await supabase
-      .from("messages")
-      console.log("INSERT READY");
-      .insert({
-        user_id: userData.user.id,
-        content: input.value.trim()
-      });
-      console.log("INSERT DONE");
+    console.log("INSERT READY");
+
+ const { error } = await supabase
+   .from("messages")
+    .insert({
+      user_id: userData.user.id,
+      content: input.value.trim()
+   });
+
+  console.log("INSERT DONE", error);
 
     if (error) {
       status.textContent = error.message;
