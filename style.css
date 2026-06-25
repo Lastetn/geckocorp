@@ -1,0 +1,210 @@
+
+/* 
+    Style général du site
+*/
+
+h1 {
+    background: linear-gradient(90deg, #f7d400, #4cc96f);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(
+		to bottom,
+		#f7f7f7 0%,
+		#eaffea 100%
+	) fixed;
+	color: #000000;
+}
+
+a {
+  font-weight: bold;
+  background: linear-gradient(90deg, #000000, #888888);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: gradientMove 4s ease infinite;
+}
+
+a:hover {
+  font-weight: bold;
+  background: linear-gradient(90deg, #f7d400, #4cc96f, #00bfff);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: gradientMove 4s ease infinite;
+}
+
+p {
+  font-weight: bold;
+  background: linear-gradient(90deg, #000000, #888888);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: gradientMove 4s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.bloc {
+    display: flex;
+    align-items: flex-start; /* aligne le haut du h1 avec le haut des images */
+    gap: 40px; /* espace entre la colonne gauche et droite */
+}
+
+.gauche {
+    display: flex;
+    flex-direction: column; /* h1 au-dessus du lien */
+    gap: 10px;
+}
+
+.droite img {
+    margin-top: 5px;
+	width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+
+/* Barre de navigation avec dégradé jaune → vert */
+nav {
+    background: linear-gradient(135deg, #f7d400, #4cc96f);
+    padding: 15px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+/* Liens du menu */
+nav a {
+    color: #0b7a3e;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+/* Survol */
+nav a:hover {
+    color: white;
+    transform: scale(1.1);
+}
+
+/* 
+    Contenu centré
+*/
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    border-left: 6px solid #4cc96f;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    animation: fadeIn 0.7s ease;
+}
+
+/* 
+    Animation d’apparition
+*/
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Bouton du thème */
+#theme-toggle {
+    margin-left: auto;
+    background: none;
+    border: 1px solid white;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+#theme-toggle:hover {
+    background: #332800;
+    color: black;
+}
+
+/* --- MODE SOMBRE JAUNE + VERT --- */
+
+.dark {
+    background: linear-gradient(
+        to bottom,
+        #332800 0%,  /* jaune sombre plus visible */
+        #00130a 50%, /* vert très sombre */
+        #000000 100% /* noir profond */
+    ) fixed;
+    color: #ffffff;
+}
+/* Navigation sombre */
+.dark nav { 
+    background: linear-gradient(135deg, #4cc96f, #f7d400);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+}
+
+.dark nav a {
+    color: #fff4a0;
+}
+
+.dark nav a:hover {
+    color: white;
+}
+
+/* Conteneur sombre */
+.dark .container {
+    background: #144d2a;
+    border-left: 6px solid #f7d400;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+/* Titres en dégradé inversé */
+.dark h1 {
+    background: linear-gradient(90deg, #4cc96f, #f7d400);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* Bouton du thème en mode sombre */
+.dark #theme-toggle {
+    border-color: #f7d400;
+    color: #f7d400;
+}
+
+.dark a {
+  font-weight: bold;
+  background: linear-gradient(90deg, #ffffff, #888888);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: gradientMove 4s ease infinite;
+}
+
+.dark a:hover {
+  font-weight: bold;
+  background: linear-gradient(90deg, #f7d400, #4cc96f, #00bfff);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: gradientMove 4s ease infinite;
+}
+
+.dark p {
+  font-weight: bold;
+  background: linear-gradient(90deg, #ffffff, #888888);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: gradientMove 4s ease infinite;
+}
