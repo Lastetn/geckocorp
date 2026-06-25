@@ -47,6 +47,9 @@
   const { data: userData } = await supabase.auth.getUser();
   console.log("USER =", userData.user);
 
+  const session = await supabase.auth.getSession();
+  console.log("SESSION =", session);
+
   if (!userData.user) {
     status.textContent = "Tu dois être connecté pour utiliser la messagerie.";
     sendBtn.disabled = true;
