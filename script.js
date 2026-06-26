@@ -15,7 +15,7 @@ window.onload = () => {
 
 // Thème sombre / clair
 const toggle = document.getElementById("theme-toggle");
-const body = document.body;
+
 // Charger le thème sauvegardé
 if (localStorage.getItem("theme") === "dark") {
     document.body.classList.add("dark");
