@@ -1,17 +1,3 @@
-import { supabase } from "./supabase.js";
-const loginLink = document.getElementById("login-link");
-const logoutLink = document.getElementById("logout-link");
-
-// Vérifier si l'utilisateur est connecté
-supabase.auth.getUser().then(({ data }) => {
-    if (data.user) {
-        loginLink.style.display = "none";
-        logoutLink.style.display = "inline";
-    } else {
-        loginLink.style.display = "inline";
-        logoutLink.style.display = "none";
-    }
-});
 
 /* 
     Petite animation : le titre grossit légèrement au chargement
@@ -46,12 +32,3 @@ toggle.addEventListener("click", () => {
     }
 });
 
-// Déconnexion
-const logoutLink = document.getElementById("logout-link");
-
-if (logoutLink) {
-    logoutLink.addEventListener("click", async () => {
-        await supabase.auth.signOut();
-        window.location.href = "login.html";
-    });
-}
