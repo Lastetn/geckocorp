@@ -1,38 +1,31 @@
-
 import { supabase } from "./supabase.js";
 
+let currentUser = null;
+
+// Récupérer l'utilisateur AVANT de charger les messages
 supabase.auth.getUser().then(({ data }) => {
-  console.log("USER =", data.user);
-});
+  currentUser = data.user;
+  console.log("USER =", currentUser);
 
-
-// Vérifier si l'utilisateur est connecté
-supabase.auth.getUser().then(({ data }) => {
-  console.log("USER =", data.user);
-});
-
-// Charger les messages au démarrage
-loadMessages();
-
-// Fonction pour envoyer un message
-async function sendMessage() {
-  const { data } = await supabase.auth.getUser();
-
-  console.log("USER =", data.user);
-
-  if (!data.user) {
-    alert("Tu n'es pas connecté !");
+  if (!currentUser) {
+    alert("Tu dois être connecté pour utiliser la messagerie.");
     return;
   }
 
-  const content = document.getElementById("messageInput").value;
+  loadMessages();
+});
 
-  if (!content.trim()) return;
+// Fonction pour envoyer un message
+async function sendMessage() {
+  if (!currentUser) return;
+
+  const content = document.getElementById("messageInput").value.trim();
+  if (!content) return;
 
   const { error } = await supabase
     .from("messages")
     .insert({
-      user_id: data.user.id,
+      user_id: currentUser.id,
       content: content
     });
 
@@ -54,18 +47,19 @@ async function loadMessages() {
     .order("created_at", { ascending: true });
 
   if (error) {
-    status.textContent = error.message;
+    console.error(error);
     return;
   }
 
+  const messagesDiv = document.getElementById("messages");
   messagesDiv.innerHTML = "";
 
   data.forEach(m => {
     const div = document.createElement("div");
     div.classList.add("message");
 
-    // Si c’est TON message → bulle à droite
-    if (m.user_id === userData.user.id) {
+    // Bulle à droite si c’est ton message
+    if (currentUser && m.user_id === currentUser.id) {
       div.classList.add("me");
     } else {
       div.classList.add("other");
@@ -79,7 +73,9 @@ async function loadMessages() {
     messagesDiv.appendChild(div);
   });
 
-  // Auto-scroll vers le bas
+  // Auto-scroll
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 
+// Bouton envoyer
+document.getElementById("sendBtn").onclick = sendMessage;
