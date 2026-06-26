@@ -2,8 +2,8 @@
 // ===============================
 //  CONFIG SUPABASE
 // ===============================
-const supabaseUrl = "TON_URL_SUPABASE";
-const supabaseKey = "TA_CLE_ANON";
+const supabaseUrl = "https://frtvvqdvdwjzrxnvcrgy.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydHZ2cWR2ZHdqenJ4bnZjcmd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzODExNTYsImV4cCI6MjA5Nzk1NzE1Nn0.ip-Gx4OjjEAAvCDdNjJXLonUAtaEll5nUJRalaYh6Cs";
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
 // ===============================
