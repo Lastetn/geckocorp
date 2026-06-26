@@ -1,8 +1,11 @@
 
-// ===============================
-//  CONFIG SUPABASE
-// ===============================
-import { supabase } from "./supabase.js";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+const supabaseUrl = "https://frtvvqdvdwjzrxnvcrgy.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydHZ2cWR2ZHdqenJ4bnZjcmd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzODExNTYsImV4cCI6MjA5Nzk1NzE1Nn0.ip-Gx4OjjEAAvCDdNjJXLonUAtaEll5nUJRalaYh6Cs";
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
 // ===============================
 //  CHARGER LES MESSAGES
 // ===============================
@@ -17,7 +20,7 @@ async function loadMessages() {
     return;
   }
 
-  const container = document.getElementById("messages-container");
+  const container = document.getElementById("messages");
   container.innerHTML = "";
 
   data.forEach((msg) => {
@@ -38,12 +41,10 @@ loadMessages();
 // ===============================
 //  ENVOYER UN MESSAGE
 // ===============================
-const form = document.getElementById("message-form");
-const input = document.getElementById("message-input");
+const sendBtn = document.getElementById("sendBtn");
+const input = document.getElementById("messageInput");
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
+sendBtn.addEventListener("click", async () => {
   const content = input.value.trim();
   if (content === "") return;
 
@@ -68,7 +69,7 @@ supabase
     (payload) => {
       const msg = payload.new;
 
-      const container = document.getElementById("messages-container");
+      const container = document.getElementById("messages");
 
       const div = document.createElement("div");
       div.classList.add("message");
