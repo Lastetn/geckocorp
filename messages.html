@@ -81,8 +81,6 @@
 sendBtn.onclick = async () => {
   if (!input.value.trim()) return;
 
-  console.log("INSERT READY");
-
   const { error } = await supabase
     .from("messages")
     .insert({
@@ -90,13 +88,10 @@ sendBtn.onclick = async () => {
       content: input.value.trim()
     });
 
-  console.log("INSERT DONE", error);
-
   if (error) {
     status.textContent = error.message;
   } else {
     input.value = "";
-    status.textContent = "Message envoyé.";
     loadMessages();
   }
 };
