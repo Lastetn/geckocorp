@@ -1,10 +1,20 @@
+import { supabase } from "./supabase.js";
 
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+// ===============================
+//  RÉCUPÉRER L’UTILISATEUR CONNECTÉ
+// ===============================
+let currentUser = null;
 
-const supabaseUrl = "https://frtvvqdvdwjzrxnvcrgy.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydHZ2cWR2ZHdqenJ4bnZjcmd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzODExNTYsImV4cCI6MjA5Nzk1NzE1Nn0.ip-Gx4OjjEAAvCDdNjJXLonUAtaEll5nUJRalaYh6Cs";
+async function getCurrentUser() {
+  const { data, error } = await supabase.auth.getUser();
+  if (error) {
+    console.error("Erreur getUser:", error);
+    return;
+  }
+  currentUser = data.user;
+}
 
-const supabase = createClient(supabaseUrl, supabaseKey);
+await getCurrentUser();
 
 // ===============================
 //  CHARGER LES MESSAGES
@@ -13,7 +23,7 @@ async function loadMessages() {
   const { data, error } = await supabase
     .from("messages")
     .select("*")
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: true });
 
   if (error) {
     console.error("Erreur loadMessages:", error);
@@ -27,6 +37,13 @@ async function loadMessages() {
     const div = document.createElement("div");
     div.classList.add("message");
 
+    // Alignement selon l’auteur
+    if (currentUser && msg.user_id === currentUser.id) {
+      div.classList.add("me");
+    } else {
+      div.classList.add("other");
+    }
+
     div.innerHTML = `
       <p>${msg.content}</p>
       <span>${new Date(msg.created_at).toLocaleTimeString()}</span>
@@ -34,6 +51,8 @@ async function loadMessages() {
 
     container.appendChild(div);
   });
+
+  container.scrollTop = container.scrollHeight;
 }
 
 loadMessages();
@@ -48,7 +67,17 @@ sendBtn.addEventListener("click", async () => {
   const content = input.value.trim();
   if (content === "") return;
 
-  const { error } = await supabase.from("messages").insert([{ content }]);
+  if (!currentUser) {
+    console.error("Utilisateur non connecté");
+    return;
+  }
+
+  const { error } = await supabase.from("messages").insert([
+    {
+      content,
+      user_id: currentUser.id
+    }
+  ]);
 
   if (error) {
     console.error("Erreur sendMessage:", error);
@@ -74,12 +103,20 @@ supabase
       const div = document.createElement("div");
       div.classList.add("message");
 
+      // Alignement selon l’auteur
+      if (currentUser && msg.user_id === currentUser.id) {
+        div.classList.add("me");
+      } else {
+        div.classList.add("other");
+      }
+
       div.innerHTML = `
         <p>${msg.content}</p>
         <span>${new Date(msg.created_at).toLocaleTimeString()}</span>
       `;
 
-      container.prepend(div);
+      container.appendChild(div);
+      container.scrollTop = container.scrollHeight;
     }
   )
   .subscribe();
