@@ -2,6 +2,20 @@ import { supabase } from "./supabase.js";
 
 let currentUser = null;
 
+// Afficher / cacher Connexion / Déconnexion
+supabase.auth.getUser().then(({ data }) => {
+    const loginLink = document.getElementById("login-link");
+    const logoutLink = document.getElementById("logout-link");
+
+    if (data.user) {
+        loginLink.style.display = "none";
+        logoutLink.style.display = "inline";
+    } else {
+        loginLink.style.display = "inline";
+        logoutLink.style.display = "none";
+    }
+});
+
 // Récupérer l'utilisateur AVANT de charger les messages
 supabase.auth.getUser().then(({ data }) => {
   currentUser = data.user;
