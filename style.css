@@ -327,3 +327,84 @@ nav a:hover {
     background: linear-gradient(135deg, #f7d400, #4cc96f);
     color: black;
 }
+
+/* --- PAGE LOGIN --- */
+
+.login-box {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 15px;
+    border-left: 6px solid #4cc96f;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    animation: fadeIn 0.6s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Inputs stylés */
+.login-box input {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 2px solid #4cc96f;
+    font-size: 16px;
+    outline: none;
+    transition: 0.2s;
+    background: #f9fff9;
+}
+
+.login-box input:focus {
+    border-color: #f7d400;
+    background: #ffffff;
+    box-shadow: 0 0 8px rgba(76, 201, 111, 0.4);
+}
+
+/* Boutons login/register */
+.login-box button {
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background: linear-gradient(135deg, #4cc96f, #f7d400);
+    transition: 0.2s;
+}
+
+.login-box button:hover {
+    transform: scale(1.05);
+}
+
+/* Message de statut */
+#status {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* --- MODE SOMBRE LOGIN --- */
+
+.dark .login-box {
+    background: #144d2a;
+    border-left-color: #f7d400;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+.dark .login-box input {
+    background: #0f2f1c;
+    color: white;
+    border-color: #f7d400;
+}
+
+.dark .login-box input:focus {
+    background: #144d2a;
+    border-color: #4cc96f;
+}
+
+.dark .login-box button {
+    background: linear-gradient(135deg, #f7d400, #4cc96f);
+    color: black;
+}
