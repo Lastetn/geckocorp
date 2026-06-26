@@ -48,23 +48,38 @@ async function sendMessage() {
 
 // Fonction pour charger les messages
 async function loadMessages() {
-  const { data: messages, error } = await supabase
+  const { data, error } = await supabase
     .from("messages")
-    .select("content, created_at")
+    .select("content, created_at, user_id")
     .order("created_at", { ascending: true });
 
   if (error) {
-    console.error("Erreur SELECT :", error);
+    status.textContent = error.message;
     return;
   }
 
-  const box = document.getElementById("messagesBox");
-  box.innerHTML = "";
+  messagesDiv.innerHTML = "";
 
-  messages.forEach(msg => {
+  data.forEach(m => {
     const div = document.createElement("div");
     div.classList.add("message");
-    div.textContent = msg.content;
-    box.appendChild(div);
+
+    // Si c’est TON message → bulle à droite
+    if (m.user_id === userData.user.id) {
+      div.classList.add("me");
+    } else {
+      div.classList.add("other");
+    }
+
+    div.innerHTML = `
+      <div class="content">${m.content}</div>
+      <div class="timestamp">${new Date(m.created_at).toLocaleTimeString()}</div>
+    `;
+
+    messagesDiv.appendChild(div);
   });
+
+  // Auto-scroll vers le bas
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
+
