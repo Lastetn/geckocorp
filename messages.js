@@ -79,3 +79,14 @@ async function loadMessages() {
 
 // Bouton envoyer
 document.getElementById("sendBtn").onclick = sendMessage;
+
+
+// Déconnexion
+const logoutLink = document.getElementById("logout-link");
+
+if (logoutLink) {
+    logoutLink.addEventListener("click", async () => {
+        await supabase.auth.signOut();
+        window.location.href = "login.html";
+    });
+}
