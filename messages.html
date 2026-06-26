@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -30,74 +29,11 @@
   <p id="status"></p>
 </div>
 
-<!-- TON SCRIPT SUPABASE EN MODULE -->
-<script type="module">
-  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+<!-- CHARGEMENT DU SCRIPT DU CHAT -->
+<script type="module" src="messages.js"></script>
 
-  const supabaseUrl = "https://frtvvqdvdwjzrxnvcrgy.supabase.co";
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydHZ2cWR2ZHdqenJ4bnZjcmd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzODExNTYsImV4cCI6MjA5Nzk1NzE1Nn0.ip-Gx4OjjEAAvCDdNjJXLonUAtaEll5nUJRalaYh6Cs";
-  const supabase = createClient(supabaseUrl, supabaseKey);
-
-  const messagesDiv = document.getElementById("messages");
-  const input = document.getElementById("messageInput");
-  const sendBtn = document.getElementById("sendBtn");
-  const status = document.getElementById("status");
-
-  // Vérifier utilisateur connecté
-  const { data: userData } = await supabase.auth.getUser();
-  console.log("USER =", userData.user);
-
-  const session = await supabase.auth.getSession();
-  console.log("SESSION =", session);
-
-  console.log("ROLE =", session.data.session?.user?.role);
-
-
-  if (!userData.user) {
-    status.textContent = "Tu dois être connecté pour utiliser la messagerie.";
-    sendBtn.disabled = true;
-  }
-
-  async function loadMessages() {
-    const { data, error } = await supabase
-      .from("messages")
-      .select("content, created_at")
-      .order("created_at", { ascending: false })
-      .limit(20);
-
-    if (error) {
-      status.textContent = error.message;
-      return;
-    }
-
-    messagesDiv.innerHTML = "";
-    data.forEach(m => {
-      const p = document.createElement("p");
-      p.textContent = `[${new Date(m.created_at).toLocaleTimeString()}] ${m.content}`;
-      messagesDiv.appendChild(p);
-    });
-  }
-
-sendBtn.onclick = async () => {
-  if (!input.value.trim()) return;
-
-  const { error } = await supabase
-    .from("messages")
-    .insert({
-      user_id: userData.user.id,
-      content: input.value.trim()
-    });
-
-  if (error) {
-    status.textContent = error.message;
-  } else {
-    input.value = "";
-    loadMessages();
-  }
-};
-
-  loadMessages();
-</script>
+<!-- CHARGEMENT DU SCRIPT DU THEME (si tu en as un) -->
+<script type="module" src="theme.js"></script>
 
 </body>
 </html>
