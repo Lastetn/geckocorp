@@ -1,6 +1,4 @@
 
-import { supabase } from "./supabase.js";
-
 /* 
     Petite animation : le titre grossit légèrement au chargement
 */
