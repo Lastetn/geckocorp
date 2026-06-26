@@ -1,82 +1,87 @@
-import { supabase } from "./supabase.js";
 
-let currentUser = null;
+// ===============================
+//  CONFIG SUPABASE
+// ===============================
+const supabaseUrl = "TON_URL_SUPABASE";
+const supabaseKey = "TA_CLE_ANON";
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-// Récupérer l'utilisateur AVANT de charger les messages
-supabase.auth.getUser().then(({ data }) => {
-  currentUser = data.user;
-  console.log("USER =", currentUser);
-
-  if (!currentUser) {
-    alert("Tu dois être connecté pour utiliser la messagerie.");
-    return;
-  }
-
-  loadMessages();
-});
-
-// Fonction pour envoyer un message
-async function sendMessage() {
-  if (!currentUser) return;
-
-  const content = document.getElementById("messageInput").value.trim();
-  if (!content) return;
-
-  const { error } = await supabase
-    .from("messages")
-    .insert({
-      user_id: currentUser.id,
-      content: content
-    });
-
-  if (error) {
-    console.error("Erreur INSERT :", error);
-    alert("Erreur lors de l'envoi du message");
-    return;
-  }
-
-  document.getElementById("messageInput").value = "";
-  loadMessages();
-}
-
-// Fonction pour charger les messages
+// ===============================
+//  CHARGER LES MESSAGES
+// ===============================
 async function loadMessages() {
   const { data, error } = await supabase
     .from("messages")
-    .select("content, created_at, user_id")
-    .order("created_at", { ascending: true });
+    .select("*")
+    .order("created_at", { ascending: false });
 
   if (error) {
-    console.error(error);
+    console.error("Erreur loadMessages:", error);
     return;
   }
 
-  const messagesDiv = document.getElementById("messages");
-  messagesDiv.innerHTML = "";
+  const container = document.getElementById("messages-container");
+  container.innerHTML = "";
 
-  data.forEach(m => {
+  data.forEach((msg) => {
     const div = document.createElement("div");
     div.classList.add("message");
 
-    // Bulle à droite si c’est ton message
-    if (currentUser && m.user_id === currentUser.id) {
-      div.classList.add("me");
-    } else {
-      div.classList.add("other");
-    }
-
     div.innerHTML = `
-      <div class="content">${m.content}</div>
-      <div class="timestamp">${new Date(m.created_at).toLocaleTimeString()}</div>
+      <p>${msg.content}</p>
+      <span>${new Date(msg.created_at).toLocaleTimeString()}</span>
     `;
 
-    messagesDiv.appendChild(div);
+    container.appendChild(div);
   });
-
-  // Auto-scroll
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 
-// Bouton envoyer
-document.getElementById("sendBtn").onclick = sendMessage;
+loadMessages();
 
+// ===============================
+//  ENVOYER UN MESSAGE
+// ===============================
+const form = document.getElementById("message-form");
+const input = document.getElementById("message-input");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const content = input.value.trim();
+  if (content === "") return;
+
+  const { error } = await supabase.from("messages").insert([{ content }]);
+
+  if (error) {
+    console.error("Erreur sendMessage:", error);
+    return;
+  }
+
+  input.value = "";
+});
+
+// ===============================
+//  TEMPS RÉEL : NOUVEAUX MESSAGES
+// ===============================
+supabase
+  .channel("realtime-messages")
+  .on(
+    "postgres_changes",
+    { event: "INSERT", schema: "public", table: "messages" },
+    (payload) => {
+      const msg = payload.new;
+
+      const container = document.getElementById("messages-container");
+
+      const div = document.createElement("div");
+      div.classList.add("message");
+
+      div.innerHTML = `
+        <p>${msg.content}</p>
+        <span>${new Date(msg.created_at).toLocaleTimeString()}</span>
+      `;
+
+      container.prepend(div);
+    }
+  )
+  .subscribe();
