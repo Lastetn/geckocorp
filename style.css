@@ -266,3 +266,64 @@ nav a:hover {
     background: #144d2a;
     border-left-color: #4cc96f;
 }
+
+/* Ligne de séparation sous le titre */
+.chat-separator {
+    width: 100%;
+    height: 2px;
+    margin: 15px 0 25px 0;
+    background: linear-gradient(90deg, #4cc96f, #f7d400);
+    border-radius: 2px;
+    opacity: 0.8;
+}
+
+/* Mode sombre */
+.dark .chat-separator {
+    background: linear-gradient(90deg, #f7d400, #4cc96f);
+    opacity: 0.9;
+}
+
+#messageInput {
+    width: 100%;
+    height: 70px;
+    padding: 12px;
+    border-radius: 10px;
+    border: 2px solid #4cc96f;
+    resize: none;
+    font-size: 16px;
+    outline: none;
+    margin-top: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+#messageInput:focus {
+    border-color: #f7d400;
+}
+
+#sendBtn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #4cc96f, #f7d400);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    color: black;
+    transition: 0.2s;
+}
+
+#sendBtn:hover {
+    transform: scale(1.05);
+}
+
+/* Mode sombre */
+.dark #messageInput {
+    background: #0f2f1c;
+    color: white;
+    border-color: #f7d400;
+}
+
+.dark #sendBtn {
+    background: linear-gradient(135deg, #f7d400, #4cc96f);
+    color: black;
+}
