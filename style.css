@@ -184,6 +184,12 @@ nav a:hover {
     box-shadow: 0 4px 15px rgba(0,0,0,0.4);
 }
 
+.dark .chat-container {
+    background: #144d2a;
+    border-left: 6px solid #f7d400;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
 .dark h1 {
     background: linear-gradient(90deg, #4cc96f, #f7d400);
     -webkit-background-clip: text;
