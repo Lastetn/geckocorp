@@ -22,6 +22,14 @@ body {
     display: flex;flex-direction:column;
 }
 
+#contacts-page {
+    background: #000000
+    background-image: url("logo-Gecko.png");
+    background-repeat: no-repeat;
+    background-position: top center; /* ou center, ou bottom right */
+    background-size: 120px; /* ajuste la taille du logo */
+}
+
 a {
   font-weight: bold;
   background: linear-gradient(90deg, #000000, #888888);
