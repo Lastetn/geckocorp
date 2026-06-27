@@ -23,7 +23,7 @@ body {
 }
 
 #contacts-page {
-    background: #000000
+    background: #000000;
     background-image: url("logo-Gecko.png");
     background-repeat: no-repeat;
     background-position: top center; /* ou center, ou bottom right */
