@@ -23,11 +23,11 @@ body {
 }
 
 #contacts-page {
-    background: #000000;
     background-image: url("logo-Gecko.png");
     background-repeat: no-repeat;
-    background-position: top center; /* ou center, ou bottom right */
-    background-size: 120px; /* ajuste la taille du logo */
+    background-position: center center;
+    background-size: contain; /* ✔ image entière visible */
+    background-color: #000;   /* fond derrière */
 }
 
 a {
