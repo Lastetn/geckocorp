@@ -98,23 +98,9 @@ nav a:hover {
 }
 
 /* Contenu centré */
-.container-messages {
-    max-width: 800px;
-    margin: 0 auto; /* ✔ enlève les marges verticales */
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    border-left: 6px solid #4cc96f;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    animation: fadeIn 0.7s ease;
-    display: flex;
-    flex-direction: column;
-    height: calc(100vh - 120px);
-}
-
 .container {
     max-width: 800px;
-    margin: 40px auto;   /* ❌ casse la hauteur */
+    margin: 0 auto; /* ✔ enlève les marges verticales */
     background: white;
     padding: 20px;
     border-radius: 12px;
