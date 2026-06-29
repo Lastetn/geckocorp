@@ -99,6 +99,23 @@ sendBtn.addEventListener("click", async () => {
     }
   ]);
 
+  await supabase.from("messages").insert({
+  content: message,
+  user_id: currentUser.id
+});
+
+// Appel de la notif
+await fetch("https://frtvvqdvdwjzrxnvcrgy.supabase.co/functions/v1/notify", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    message: message,
+    user: currentUser.id
+  })
+});
+
   if (error) {
     console.error("Erreur sendMessage:", error);
     return;
