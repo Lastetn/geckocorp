@@ -423,3 +423,33 @@ nav a:hover {
     background: linear-gradient(135deg, #f7d400, #4cc96f);
     color: black;
 }
+
+/* ============================
+   AVATAR + PSEUDO DANS LE CHAT
+============================ */
+.msg-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.msg-header strong {
+    font-size: 14px;
+    color: #333;
+}
+
+.dark .msg-header strong {
+    color: #fff !important;
+}
+
+.dark .avatar {
+    border: 2px solid #f7d400;
+}
