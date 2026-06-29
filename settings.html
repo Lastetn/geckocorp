@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Paramètres</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="logo-Gecko.png" sizes="32x32">
+</head>
+
+<body>
+
+    <!-- Menu -->
+    <nav>
+        <a href="index.html">Accueil</a>
+        <a href="about.html">À propos</a>
+        <a href="contact.html">Contact</a>
+        <a href="messages.html">Messagerie</a>
+        <a href="settings.html">Paramètres</a>
+        <a href="login.html" id="login-link">Connexion</a>
+        <a href="#" id="logout-link" style="display:none;">Déconnexion</a>
+        <button id="theme-toggle">🌙</button>
+    </nav>
+
+    <!-- Contenu -->
+    <div class="container">
+
+        <h1>Paramètres du compte</h1>
+
+        <div class="settings-box">
+
+            <label>Pseudo :</label>
+            <input type="text" id="usernameInput">
+
+            <label>Photo de profil (URL) :</label>
+            <input type="text" id="avatarInput">
+
+            <button id="saveBtn">Sauvegarder</button>
+
+            <p id="status"></p>
+        </div>
+
+    </div>
+
+    <script type="module" src="settings.js"></script>
+    <script type="module" src="global-auth.js"></script>
+</body>
+</html>
