@@ -1,3 +1,4 @@
+
 import { supabase } from "./supabase.js";
 
 // ===============================
@@ -45,6 +46,10 @@ async function loadMessages() {
     }
 
     div.innerHTML = `
+      <div class="msg-header">
+        <img src="${msg.avatar_url}" class="avatar">
+        <strong>${msg.username}</strong>
+      </div>
       <p>${msg.content}</p>
       <span>${new Date(msg.created_at).toLocaleTimeString()}</span>
     `;
@@ -72,10 +77,25 @@ sendBtn.addEventListener("click", async () => {
     return;
   }
 
+  // 🔥 Récupérer pseudo + PP
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("username, avatar_url")
+    .eq("id", currentUser.id)
+    .single();
+
+  if (profileError) {
+    console.error("Erreur profil:", profileError);
+    return;
+  }
+
+  // 🔥 Envoyer le message avec pseudo + PP
   const { error } = await supabase.from("messages").insert([
     {
       content,
-      user_id: currentUser.id
+      user_id: currentUser.id,
+      username: profile.username,
+      avatar_url: profile.avatar_url
     }
   ]);
 
@@ -103,7 +123,6 @@ supabase
       const div = document.createElement("div");
       div.classList.add("message");
 
-      // Alignement selon l’auteur
       if (currentUser && msg.user_id === currentUser.id) {
         div.classList.add("me");
       } else {
@@ -111,6 +130,10 @@ supabase
       }
 
       div.innerHTML = `
+        <div class="msg-header">
+          <img src="${msg.avatar_url}" class="avatar">
+          <strong>${msg.username}</strong>
+        </div>
         <p>${msg.content}</p>
         <span>${new Date(msg.created_at).toLocaleTimeString()}</span>
       `;
