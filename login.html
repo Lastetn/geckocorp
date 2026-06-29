@@ -45,14 +45,31 @@
     const password = document.getElementById("password");
     const status = document.getElementById("status");
 
-    // Inscription
-    document.getElementById("registerBtn").onclick = async () => {
-        const { error } = await supabase.auth.signUp({
-            email: email.value,
-            password: password.value
+// Inscription
+document.getElementById("registerBtn").onclick = async () => {
+    const { data, error } = await supabase.auth.signUp({
+        email: email.value,
+        password: password.value
+    });
+
+    if (error) {
+        status.textContent = error.message;
+        return;
+    }
+
+    status.textContent = "Compte créé ! Vérifie ton email.";
+
+    // ➜ Créer la ligne dans profiles
+    const user = data.user;
+    if (user) {
+        await supabase.from("profiles").insert({
+            id: user.id,
+            username: "Nouvel utilisateur",
+            avatar_url: "default.png"
         });
-        status.textContent = error ? error.message : "Compte créé ! Vérifie ton email.";
-    };
+    }
+};
+
 
     // Connexion
     document.getElementById("loginBtn").onclick = async () => {
