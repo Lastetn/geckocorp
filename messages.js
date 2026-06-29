@@ -69,8 +69,8 @@ const sendBtn = document.getElementById("sendBtn");
 const input = document.getElementById("messageInput");
 
 sendBtn.addEventListener("click", async () => {
-  const content = input.value.trim();
-  if (content === "") return;
+  const message = input.value.trim(); // ← message défini ici
+  if (message === "") return;
 
   if (!currentUser) {
     console.error("Utilisateur non connecté");
@@ -89,52 +89,41 @@ sendBtn.addEventListener("click", async () => {
     return;
   }
 
-  // 🔥 Envoyer le message avec pseudo + PP
+  // 🔥 Envoyer le message avec pseudo + PP (UN SEUL INSERT)
   const { error } = await supabase.from("messages").insert([
     {
-      content,
+      content: message,
       user_id: currentUser.id,
       username: profile.username,
       avatar_url: profile.avatar_url
     }
   ]);
 
-  await supabase.from("messages").insert({
-  content: message,
-  user_id: currentUser.id
-});
-
-// Envoi du message dans Supabase
-await supabase.from("messages").insert({
-  content: message,
-  user_id: currentUser.id
-});
-
-// Récupérer tous les emails des utilisateurs
-const { data: users } = await supabase
-  .from("profiles")
-  .select("email");
-
-// Envoyer un mail à chaque utilisateur
-for (const u of users) {
-  await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer re_iyaXqEUq_GSt3DJ6D8E74TUY1djh1mTUH`,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      from: "Gecko <onboarding@resend.dev>",
-      to: u.email,
-      subject: "Nouveau message sur Gecko",
-      html: `<p>Nouveau message :</p><p>${message}</p>`
-    })
-  });
-}
-
   if (error) {
     console.error("Erreur sendMessage:", error);
     return;
+  }
+
+  // 🔥 Récupérer tous les emails des utilisateurs
+  const { data: users } = await supabase
+    .from("profiles")
+    .select("email");
+
+  // 🔥 Envoyer un mail à chaque utilisateur
+  for (const u of users) {
+    await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        "Authorization": "Bearer re_iyaXqEUq_GSt3DJ6D8E74TUY1djh1mTUH",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        from: "Gecko <onboarding@resend.dev>",
+        to: u.email,
+        subject: "Nouveau message sur Gecko",
+        html: `<p>Nouveau message :</p><p>${message}</p>`
+      })
+    });
   }
 
   input.value = "";
