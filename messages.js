@@ -114,7 +114,7 @@ sendBtn.addEventListener("click", async () => {
     await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
-        "Authorization": "Bearer ",
+        "Authorization": "Bearer re_fixuwdGw_FyEkcHKk9xP6dTtCUHHCY6Bm",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
