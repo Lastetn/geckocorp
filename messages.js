@@ -1,4 +1,3 @@
-
 import { supabase } from "./supabase.js";
 
 // ===============================
@@ -69,7 +68,7 @@ const sendBtn = document.getElementById("sendBtn");
 const input = document.getElementById("messageInput");
 
 sendBtn.addEventListener("click", async () => {
-  const message = input.value.trim(); // ← message défini ici
+  const message = input.value.trim();
   if (message === "") return;
 
   if (!currentUser) {
@@ -89,7 +88,7 @@ sendBtn.addEventListener("click", async () => {
     return;
   }
 
-  // 🔥 Envoyer le message avec pseudo + PP (UN SEUL INSERT)
+  // 🔥 Envoyer le message avec pseudo + PP
   const { error } = await supabase.from("messages").insert([
     {
       content: message,
@@ -104,27 +103,26 @@ sendBtn.addEventListener("click", async () => {
     return;
   }
 
-  // 🔥 Récupérer tous les emails des utilisateurs
+  // ===============================
+  //  🔥 APPEL À LA FUNCTION NOTIFY
+  // ===============================
+
+  // Récupérer tous les emails des utilisateurs
   const { data: users } = await supabase
     .from("profiles")
     .select("email");
 
-  // 🔥 Envoyer un mail à chaque utilisateur
-  for (const u of users) {
-    await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        "Authorization": "Bearer re_fixuwdGw_FyEkcHKk9xP6dTtCUHHCY6Bm",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        from: "Gecko <onboarding@resend.dev>",
-        to: u.email,
-        subject: "Nouveau message sur Gecko",
-        html: `<p>Nouveau message :</p><p>${message}</p>`
-      })
-    });
-  }
+  const emails = users.map(u => u.email);
+
+  // Appeler la Function Supabase (pas Resend)
+  await fetch("https://<project>.supabase.co/functions/v1/notify", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      message: message,
+      emails: emails
+    })
+  });
 
   input.value = "";
 });
