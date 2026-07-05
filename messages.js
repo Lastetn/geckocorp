@@ -112,7 +112,9 @@ sendBtn.addEventListener("click", async () => {
     .from("profiles")
     .select("id, email");
 
-  const emails = users.map(u => u.email);
+  const emails = users
+  .map(u => u.email)
+  .filter(email => email && email.includes("@"));
 
   // Appeler la Function Supabase (pas Resend)
   await fetch("https://frtvvqdvdwjzrxnvcrgy.supabase.co/functions/v1/notify", {
