@@ -115,7 +115,7 @@ sendBtn.addEventListener("click", async () => {
   const emails = users.map(u => u.email);
 
   // Appeler la Function Supabase (pas Resend)
-  await fetch("https://<project>.supabase.co/functions/v1/notify", {
+  await fetch("https://frtvvqdvdwjzrxnvcrgy.supabase.co/functions/v1/notify", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
