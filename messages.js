@@ -46,7 +46,7 @@ async function loadMessages() {
 
     div.innerHTML = `
       <div class="msg-header">
-        <img src="${msg.avatar_url}" class="avatar">
+        <img src="${msg.avatar_url || 'default.png'}" class="avatar">
         <strong>${msg.username}</strong>
       </div>
       <p>${msg.content}</p>
@@ -151,7 +151,7 @@ supabase
 
       div.innerHTML = `
         <div class="msg-header">
-          <img src="${msg.avatar_url}" class="avatar">
+          <img src="${msg.avatar_url || 'default.png'}" class="avatar">
           <strong>${msg.username}</strong>
         </div>
         <p>${msg.content}</p>
