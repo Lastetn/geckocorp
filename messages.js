@@ -110,7 +110,7 @@ sendBtn.addEventListener("click", async () => {
   // Récupérer tous les emails des utilisateurs
   const { data: users } = await supabase
     .from("profiles")
-    .select("email");
+    .select("id, email");
 
   const emails = users.map(u => u.email);
 
