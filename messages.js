@@ -117,7 +117,7 @@ sendBtn.addEventListener("click", async () => {
   .filter(email => email && email.includes("@"));
 
   // Appeler la Function Supabase (pas Resend)
-  await fetch("https://frtvvqdvdwjzrxnvcrgy.supabase.co/functions/v1/notify", {
+  await fetch("https://frtvvqdvdwjzrxnvcrgy.supabase.co/functions/v1/notify2", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
