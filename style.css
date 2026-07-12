@@ -13,12 +13,11 @@ body {
     background: linear-gradient(to bottom, #f7f7f7 0%, #eaffea 100%) fixed;
     color: #000;
 
-    min-height: 100dvh;   /* 🔥 viewport dynamique */
-    height: 100%;
+    height: 100vh;          /* 🔥 stable */
     display: flex;
     flex-direction: column;
 
-    overflow: hidden;     /* 🔥 stabilise la page */
+    overflow: hidden;       /* 🔥 évite les débordements */
 }
 
 /* PAGE CONTACTS */
@@ -128,13 +127,12 @@ nav a:hover {
     border-radius: 12px;
     border-left: 6px solid #4cc96f;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    animation: fadeIn 0.7s ease;
 
     display: flex;
     flex-direction: column;
 
     flex: 1;                /* 🔥 prend toute la hauteur */
-    overflow: visible;      /* 🔥 ne cache plus le bouton */
+    overflow: hidden;       /* 🔥 stable */
 }
 
 @keyframes fadeIn {
@@ -203,14 +201,11 @@ nav a:hover {
 
 /* --- CHAT --- */
 
-/* 🔥 BLOC DES MESSAGES FIXÉ */
+/* MESSAGES */
 #messages {
-    flex: 1;                /* 🔥 limite la hauteur */
-    min-height: 0;          /* 🔥 empêche de pousser le bouton */
-    overflow-y: auto;       /* 🔥 scroll interne */
-    margin-bottom: 0;
-    padding-right: 10px;
-
+    flex: 1;                /* 🔥 fix indispensable */
+    min-height: 0;          /* 🔥 empêche de pousser l’input */
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 14px;
@@ -272,21 +267,6 @@ nav a:hover {
     border-left-color: #4cc96f;
 }
 
-/* SÉPARATEUR */
-.chat-separator {
-    width: 100%;
-    height: 2px;
-    margin: 15px 0 25px 0;
-    background: linear-gradient(90deg, #4cc96f, #f7d400);
-    border-radius: 2px;
-    opacity: 0.8;
-}
-
-.dark .chat-separator {
-    background: linear-gradient(90deg, #f7d400, #4cc96f);
-    opacity: 0.9;
-}
-
 /* INPUT */
 #messageInput {
     width: 100%;
@@ -298,12 +278,7 @@ nav a:hover {
     font-size: 16px;
     outline: none;
     margin-top: 10px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    overflow-y: auto;
-}
-
-#messageInput:focus {
-    border-color: #f7d400;
+    overflow-y: auto;       /* 🔥 fix indispensable */
 }
 
 /* BOUTON ENVOYER */
@@ -321,24 +296,6 @@ nav a:hover {
 
 #sendBtn:hover {
     transform: scale(1.05);
-}
-
-.dark #messageInput {
-    background: #0f2f1c;
-    color: white;
-    border-color: #f7d400;
-}
-
-.dark #sendBtn {
-    background: linear-gradient(135deg, #f7d400, #4cc96f);
-    color: black;
-}
-
-/* ANIMATION ENVOI */
-#sendBtn.sending {
-    opacity: 0.6;
-    transform: scale(0.95);
-    pointer-events: none;
 }
 
 /* LOGIN */
@@ -392,56 +349,6 @@ nav a:hover {
     text-align: center;
     font-size: 14px;
     margin-top: 10px;
-}
-
-.dark .login-box {
-    background: #144d2a;
-    border-left-color: #f7d400;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-}
-
-.dark .login-box input {
-    background: #0f2f1c;
-    color: white;
-    border-color: #f7d400;
-}
-
-.dark .login-box input:focus {
-    background: #144d2a;
-    border-color: #4cc96f;
-}
-
-.dark .login-box button {
-    background: linear-gradient(135deg, #f7d400, #4cc96f);
-    color: black;
-}
-
-/* AVATAR + PSEUDO */
-.msg-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 6px;
-}
-
-.avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.msg-header strong {
-    font-size: 14px;
-    color: #333;
-}
-
-.dark .msg-header strong {
-    color: #fff !important;
-}
-
-.dark .avatar {
-    border: 2px solid #f7d400;
 }
 
 /* SETTINGS */
