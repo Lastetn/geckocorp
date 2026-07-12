@@ -80,13 +80,17 @@ function updateSendButton() {
 input.addEventListener("input", updateSendButton);
 updateSendButton();
 
-// Enter pour envoyer
 input.addEventListener("keydown", (e) => {
+  // 🔥 Enter SANS Shift → envoie
   if (e.key === "Enter" && !e.shiftKey) {
     e.preventDefault();
     sendBtn.click();
   }
+
+  // 🔥 Shift+Enter → NE PAS envoyer
+  // (ne rien mettre ici, laisser le navigateur faire le retour à la ligne)
 });
+
 
 sendBtn.addEventListener("click", async () => {
   const message = input.value.trim();
