@@ -190,8 +190,11 @@ supabase
       container.appendChild(div);
       container.scrollTop = container.scrollHeight;
 
-      input.value = "";
-      updateSendButton();
+      // 🔥 NE vider l'input QUE pour l'utilisateur qui a envoyé
+      if (currentUser && msg.user_id === currentUser.id) {
+        input.value = "";
+        updateSendButton();
+      }
     }
   )
   .subscribe();
