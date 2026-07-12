@@ -503,3 +503,9 @@ nav a:hover {
 .dark .settings-box button {
     background: linear-gradient(135deg, #f7d400, #4cc96f);
 }
+
+#sendBtn.sending {
+  opacity: 0.6;
+  transform: scale(0.95);
+  pointer-events: none;
+}
