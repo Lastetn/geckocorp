@@ -13,13 +13,11 @@ body {
     background: linear-gradient(to bottom, #f7f7f7 0%, #eaffea 100%) fixed;
     color: #000;
 
-    min-height: 100vh;
+    height: 100vh;          /* 🔥 hauteur fixe */
     display: flex;
     flex-direction: column;
 
-    /* 🔥 IMPORTANT : le body ne scroll pas */
-    overflow-x: hidden;
-    overflow-y: hidden;
+    overflow: hidden;       /* 🔥 le body ne scroll jamais */
 }
 
 /* PAGE CONTACTS */
@@ -134,8 +132,8 @@ nav a:hover {
     display: flex;
     flex-direction: column;
 
-    /* 🔥 prend toute la hauteur dispo */
-    flex: 1;
+    flex: 1;                /* 🔥 prend toute la hauteur */
+    overflow: hidden;       /* 🔥 empêche le débordement */
 }
 
 @keyframes fadeIn {
@@ -206,19 +204,14 @@ nav a:hover {
 
 /* 🔥 BLOC DES MESSAGES FIXÉ */
 #messages {
+    flex: 1;                /* 🔥 limite la hauteur */
+    overflow-y: auto;       /* 🔥 scroll interne */
+    margin-bottom: 0;
+    padding-right: 10px;
+
     display: flex;
     flex-direction: column;
     gap: 14px;
-
-    /* 🔥 IMPORTANT : pas de marge qui casse tout */
-    margin-bottom: 0;
-
-    /* scroll interne */
-    overflow-y: auto;
-    padding-right: 10px;
-
-    /* 🔥 limite la hauteur */
-    flex: 1;
 }
 
 /* BULLES */
@@ -498,3 +491,4 @@ nav a:hover {
 .dark .settings-box button {
     background: linear-gradient(135deg, #f7d400, #4cc96f);
 }
+
