@@ -1,4 +1,3 @@
-
 /* 
     Style général du site
 */
@@ -18,16 +17,20 @@ body {
         #eaffea 100%
     ) fixed;
     color: #000000;
-    height: 100vh;
-    display: flex;flex-direction:column;
+
+    /* 🔥 FIX FULLSCREEN TABLET */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 #contacts-page {
     background-image: url("logo-Gecko.png");
     background-repeat: no-repeat;
     background-position: center center;
-    background-size: contain; /* ✔ image entière visible */
-    background-color: #000;   /* fond derrière */
+    background-size: contain;
+    background-color: #000;
 }
 
 a {
@@ -117,18 +120,22 @@ nav a:hover {
     animation: fadeIn 0.7s ease;
 }
 
+/* CHAT FULLSCREEN FIX */
 .chat-container {
     max-width: 800px;
-    margin: 0 auto; /* ✔ enlève les marges verticales */
+    margin: 0 auto;
     background: white;
     padding: 20px;
     border-radius: 12px;
     border-left: 6px solid #4cc96f;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     animation: fadeIn 0.7s ease;
+
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 120px);
+
+    /* 🔥 FIX : prend tout l’espace restant */
+    flex: 1;
 }
 
 @keyframes fadeIn {
@@ -219,8 +226,9 @@ nav a:hover {
     margin-bottom: 20px;
     overflow-y: auto;
     padding-right: 10px;
+
+    /* 🔥 FIX : occupe l’espace restant */
     flex: 1;
-    max-height: none !important;
 }
 
 /* Bulle générique */
@@ -235,7 +243,6 @@ nav a:hover {
     flex-direction: column;
 }
 
-/* Texte du message (désactive ton gradient global) */
 .message p {
     background: none !important;
     color: #000 !important;
@@ -243,28 +250,24 @@ nav a:hover {
     margin: 0;
 }
 
-/* Timestamp */
 .message span {
     font-size: 12px;
     opacity: 0.6;
     margin-top: 4px;
 }
 
-/* Message de l'utilisateur */
 .me {
     margin-left: auto;
     background: #d4ffd9;
     border-left: 5px solid #4cc96f;
 }
 
-/* Message des autres */
 .other {
     margin-right: auto;
     background: #fffbea;
     border-left: 5px solid #f7d400;
 }
 
-/* Mode sombre */
 .dark #messages .message {
     background: #0f2f1c;
     color: white;
@@ -285,7 +288,6 @@ nav a:hover {
     border-left-color: #4cc96f;
 }
 
-/* Ligne de séparation */
 .chat-separator {
     width: 100%;
     height: 2px;
@@ -335,7 +337,6 @@ nav a:hover {
     transform: scale(1.05);
 }
 
-/* Mode sombre input */
 .dark #messageInput {
     background: #0f2f1c;
     color: white;
@@ -345,6 +346,13 @@ nav a:hover {
 .dark #sendBtn {
     background: linear-gradient(135deg, #f7d400, #4cc96f);
     color: black;
+}
+
+/* Animation d’envoi */
+#sendBtn.sending {
+  opacity: 0.6;
+  transform: scale(0.95);
+  pointer-events: none;
 }
 
 /* --- PAGE LOGIN --- */
@@ -401,7 +409,6 @@ nav a:hover {
     margin-top: 10px;
 }
 
-/* Mode sombre login */
 .dark .login-box {
     background: #144d2a;
     border-left-color: #f7d400;
@@ -502,10 +509,4 @@ nav a:hover {
 
 .dark .settings-box button {
     background: linear-gradient(135deg, #f7d400, #4cc96f);
-}
-
-#sendBtn.sending {
-  opacity: 0.6;
-  transform: scale(0.95);
-  pointer-events: none;
 }
