@@ -1,5 +1,6 @@
+
 import { supabase } from "./supabase.js";
- 
+
 // ===============================
 //  RÉCUPÉRER L’UTILISATEUR CONNECTÉ
 // ===============================
@@ -37,7 +38,6 @@ async function loadMessages() {
     const div = document.createElement("div");
     div.classList.add("message");
 
-    // Alignement selon l’auteur
     if (currentUser && msg.user_id === currentUser.id) {
       div.classList.add("me");
     } else {
@@ -67,6 +67,27 @@ loadMessages();
 const sendBtn = document.getElementById("sendBtn");
 const input = document.getElementById("messageInput");
 
+// Désactivation du bouton si input vide
+function updateSendButton() {
+  if (input.value.trim() === "") {
+    sendBtn.disabled = true;
+    sendBtn.classList.add("disabled");
+  } else {
+    sendBtn.disabled = false;
+    sendBtn.classList.remove("disabled");
+  }
+}
+input.addEventListener("input", updateSendButton);
+updateSendButton();
+
+// Enter pour envoyer
+input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    sendBtn.click();
+  }
+});
+
 sendBtn.addEventListener("click", async () => {
   const message = input.value.trim();
   if (message === "") return;
@@ -76,7 +97,11 @@ sendBtn.addEventListener("click", async () => {
     return;
   }
 
-  // 🔥 Récupérer pseudo + PP
+  // Animation d’envoi
+  sendBtn.classList.add("sending");
+  setTimeout(() => sendBtn.classList.remove("sending"), 300);
+
+  // Récupérer pseudo + PP
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("username, avatar_url")
@@ -88,7 +113,7 @@ sendBtn.addEventListener("click", async () => {
     return;
   }
 
-  // 🔥 Envoyer le message avec pseudo + PP
+  // Envoyer le message
   const { error } = await supabase.from("messages").insert([
     {
       content: message,
@@ -103,21 +128,17 @@ sendBtn.addEventListener("click", async () => {
     return;
   }
 
-  // ===============================
-  //  🔥 APPEL À LA FUNCTION NOTIFY
-  // ===============================
-
-  // Récupérer tous les emails des utilisateurs
+  // Récupérer tous les emails
   const { data: users } = await supabase
     .from("profiles")
     .select("id, email");
 
   const emails = users
-  .map(u => u.email)
-  .filter(email => email && email.includes("@"));
+    .map(u => u.email)
+    .filter(email => email && email.includes("@"));
 
-  // Appeler la Function Supabase (pas Resend)
-await fetch("https://frtvvqdvdwjzrxnvcrgy.supabase.co/functions/v1/notify3", {
+  // Appeler la Function Supabase
+  await fetch("https://frtvvqdvdwjzrxnvcrgy.supabase.co/functions/v1/notify3", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -126,7 +147,9 @@ await fetch("https://frtvvqdvdwjzrxnvcrgy.supabase.co/functions/v1/notify3", {
     })
   });
 
+  // Effacer input
   input.value = "";
+  updateSendButton();
 });
 
 // ===============================
@@ -162,6 +185,9 @@ supabase
 
       container.appendChild(div);
       container.scrollTop = container.scrollHeight;
+
+      input.value = "";
+      updateSendButton();
     }
   )
   .subscribe();
