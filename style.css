@@ -221,7 +221,20 @@ nav a:hover {
     padding-right: 10px;
     flex: 1;
     max-height: none !important;
-    background: transparent !important;
+    background: linear-gradient(
+        to bottom,
+        #f7f7f7 0%,
+        #eaffea 100%
+    ) fixed !important;
+}
+
+body.dark #messages {
+    background: linear-gradient(
+        to bottom,
+        #332800 0%,
+        #00130a 50%,
+        #000000 100%
+    ) fixed !important;
 }
 
 /* Bulle générique */
