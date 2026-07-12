@@ -18,11 +18,11 @@ body {
     ) fixed;
     color: #000000;
 
-    /* 🔥 FIX FULLSCREEN TABLET */
+    /* ✔ FIX : ne bloque plus le scroll interne */
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow-x: hidden; /* on garde seulement horizontal */
 }
 
 #contacts-page {
@@ -120,7 +120,7 @@ nav a:hover {
     animation: fadeIn 0.7s ease;
 }
 
-/* CHAT FULLSCREEN FIX */
+/* ✔ CHAT FULLSCREEN FIX */
 .chat-container {
     max-width: 800px;
     margin: 0 auto;
@@ -134,7 +134,7 @@ nav a:hover {
     display: flex;
     flex-direction: column;
 
-    /* 🔥 FIX : prend tout l’espace restant */
+    /* ✔ prend tout l’espace restant */
     flex: 1;
 }
 
@@ -224,10 +224,11 @@ nav a:hover {
     flex-direction: column;
     gap: 14px;
     margin-bottom: 20px;
-    overflow-y: auto;
-    padding-right: 10px;
 
-    /* 🔥 FIX : occupe l’espace restant */
+    /* ✔ scroll interne du chat */
+    overflow-y: auto;
+
+    padding-right: 10px;
     flex: 1;
 }
 
