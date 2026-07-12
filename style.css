@@ -221,6 +221,7 @@ nav a:hover {
     padding-right: 10px;
     flex: 1;
     max-height: none !important;
+    background: inherit !important;
 }
 
 /* Bulle générique */
