@@ -142,7 +142,7 @@ sendBtn.addEventListener("click", async () => {
     .filter(email => email && email.includes("@"));
 
   // Appeler la Function Supabase
-  await fetch("https://frtvvqdvdwjzrxnvcrgy.supabase.co/functions/v1/notify3", {
+  await fetch("https://ljhizncikukcddsbkdxv.supabase.co/functions/v1/notify3", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
