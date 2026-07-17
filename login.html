@@ -43,7 +43,6 @@
 
 	console.log("SUPA =", supabase);
 
-
     const email = document.getElementById("email");
     const password = document.getElementById("password");
     const status = document.getElementById("status");
@@ -87,6 +86,19 @@ document.getElementById("registerBtn").onclick = async () => {
         status.textContent = error ? error.message : "Connecté !";
         if (!error) window.location.href = "index.html";
     };
+
+	document.getElementById("github-login").addEventListener("click", async () => {
+    	const { data, error } = await supabase.auth.signInWithOAuth({
+        	provider: "github",
+        	options: {
+            	redirectTo: "https://lastetn.github.io/geckocorp/"
+        	}
+    	});
+
+    	if (error) {
+        	console.error("Erreur GitHub OAuth :", error);
+    	}
+	});
 
 </script>
 
