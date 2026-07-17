@@ -59,6 +59,10 @@ document.getElementById("registerBtn").onclick = async () => {
         return;
     }
 
+	if (error?.message === "User already registered") {
+    	status.textContent = "Ce compte existe déjà, connecte-toi.";
+	}
+
     status.textContent = "Compte créé ! Vérifie ton email.";
 
     // ➜ Créer la ligne dans profiles
