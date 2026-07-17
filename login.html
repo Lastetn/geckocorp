@@ -31,6 +31,7 @@
     <button id="registerBtn">Créer un compte</button>
     <button id="loginBtn">Se connecter</button>
 	<button id="github-login">Se connecter avec GitHub</button>
+	<button id="discord-login">Se connecter avec Discord</button>
 
     <p id="status"></p>
 </div>
@@ -97,6 +98,19 @@ document.getElementById("registerBtn").onclick = async () => {
 
     	if (error) {
         	console.error("Erreur GitHub OAuth :", error);
+    	}
+	});
+
+	document.getElementById("discord-login").addEventListener("click", async () => {
+    	const { data, error } = await supabase.auth.signInWithOAuth({
+        	provider: "discord",
+        	options: {
+        	    redirectTo: "https://lastetn.github.io/geckocorp/"
+        	}
+    	});
+
+    	if (error) {
+    	    console.error("Erreur Discord OAuth :", error);
     	}
 	});
 
