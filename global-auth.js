@@ -1,28 +1,45 @@
-
 import { supabase } from "./supabase.js";
 
-// Afficher / cacher Connexion / Déconnexion
-supabase.auth.getUser().then(({ data }) => {
+(async () => {
+    // Récupérer l'utilisateur
+    const { data: { user } } = await supabase.auth.getUser();
+
     const loginLink = document.getElementById("login-link");
     const logoutLink = document.getElementById("logout-link");
 
-    if (!loginLink || !logoutLink) return;
-
-    if (data.user) {
-        loginLink.style.display = "none";
-        logoutLink.style.display = "inline";
-    } else {
-        loginLink.style.display = "inline";
-        logoutLink.style.display = "none";
+    if (loginLink && logoutLink) {
+        if (user) {
+            loginLink.style.display = "none";
+            logoutLink.style.display = "inline";
+        } else {
+            loginLink.style.display = "inline";
+            logoutLink.style.display = "none";
+        }
     }
-});
 
-// Déconnexion
-const logoutLink = document.getElementById("logout-link");
+    // ➜ Créer le profil si absent
+    if (user) {
+        const { data: existing } = await supabase
+            .from("profiles")
+            .select("id")
+            .eq("id", user.id)
+            .single();
 
-if (logoutLink) {
-    logoutLink.addEventListener("click", async () => {
-        await supabase.auth.signOut();
-        window.location.href = "login.html";
-    });
-}
+        if (!existing) {
+            await supabase.from("profiles").insert({
+                id: user.id,
+                username: "Nouvel utilisateur",
+                avatar_url: "default.png"
+            });
+        }
+    }
+
+    // Déconnexion
+    const logoutLinkEl = document.getElementById("logout-link");
+    if (logoutLinkEl) {
+        logoutLinkEl.addEventListener("click", async () => {
+            await supabase.auth.signOut();
+            window.location.href = "login.html";
+        });
+    }
+})();
